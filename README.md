@@ -14,7 +14,10 @@ I am going to read  Fluent Python SECOND EDITION Clear, Concise, and Effective P
 # My interested short project is also added in this repository.
 
 1- find nan values in a DataFrame
+
 2- let's see my travels places on map
+
 3- remove all characters except numbers
+
 4- Turkish(Iran-Azerbaijan)-keyboard
 
