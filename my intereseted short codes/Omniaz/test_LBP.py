@@ -1,5 +1,10 @@
 #%%
 from skimage.feature import local_binary_pattern
+<<<<<<< HEAD
+=======
+from skimage.io import imread
+from sklearn.decomposition import PCA
+>>>>>>> 583d1f971c7440b86dd79991b043eebd40da2970
 from skimage.feature import hog
 from sklearn.decomposition import PCA
 import cv2
@@ -9,7 +14,26 @@ import numpy as np
 radius = 2
 n_points = 8 * radius
 METHOD = 'uniform'
+<<<<<<< HEAD
 # resizing image
+=======
+image = cv2.imread('enroll.jpg')
+lbp_img = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+image1 = cv2.imread('gen1.jpg')
+lbp_img1 = cv2.cvtColor(image1, cv2.COLOR_BGR2GRAY)
+image2 = cv2.imread('gen2.jpg')
+lbp_img2 = cv2.cvtColor(image2, cv2.COLOR_BGR2GRAY)
+# resizing image
+lbp_imgl =[]
+lbp_imgl1 =[]
+lbp_imgl2 =[]
+
+print(type(image))
+lbp = local_binary_pattern(lbp_img, n_points, radius, METHOD)
+lbp1 = local_binary_pattern(lbp_img1, n_points, radius, METHOD)
+lbp2 = local_binary_pattern(lbp_img2, n_points, radius, METHOD)
+
+>>>>>>> 583d1f971c7440b86dd79991b043eebd40da2970
 # %%
 from lshash import LSHash
 HASH_SIZE = 16  # hash size
@@ -19,6 +43,7 @@ FEATURE_DIMENSION = 8  # Dimension of Feature vector
 from dsift import DsiftExtractor
 def fea_ext(image):
 
+<<<<<<< HEAD
         model = cv2.SIFT_create()
         image = cv2.resize(image, (128, 128), interpolation=cv2.INTER_CUBIC)
         _, feature = model.detectAndCompute(image, None)
@@ -74,6 +99,13 @@ import os
 FEATURE_DIMENSION = 2560
 NUM_HASH_TABLE = 5
 lsh = 0
+=======
+pca = PCA(n_components=15)
+lbp_imgl = pca.fit(lbp).explained_variance_ratio_
+lbp_imgl1 = pca.fit(lbp1).explained_variance_ratio_
+lbp_imgl2 = pca.fit(lbp2).explained_variance_ratio_
+FEATURE_DIMENSION = 15
+>>>>>>> 583d1f971c7440b86dd79991b043eebd40da2970
 lsh = LSHash(
             hash_size=5,
             input_dim=FEATURE_DIMENSION,
@@ -81,6 +113,7 @@ lsh = LSHash(
             matrices_filename='matrices-fun.npz',
             overwrite=True
             )
+<<<<<<< HEAD
 fea1 = __dnn(image)
 fea2 = fea_ext(image)
 print(len(fea1))
@@ -140,5 +173,8 @@ for root, dirs, files in os.walk(path):
                                 print('img')
 #%%
 print('FP -->',FP, 'TP ->', TP, 'total img -->', total)
+=======
+lsh.index(lbp_imgl)
+>>>>>>> 583d1f971c7440b86dd79991b043eebd40da2970
 
 # %%
