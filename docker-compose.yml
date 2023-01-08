@@ -1,0 +1,9 @@
+services:
+  app:
+    build: .
+    working_dir: /app
+    volumes:
+      - ./:/app
+
+volumes:
+  todo-data:
