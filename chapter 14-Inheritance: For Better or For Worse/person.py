@@ -33,7 +33,10 @@ class Person:
 
     def raise_food(self):
         self.init_collery = self.init_collery + int(self.collery_amount)
-        print(f'Collery of food for preson {self.name, self.surname} should be up to {self.init_collery}')
+        print(f'Collery of food for preson \
+            {self.name, self.surname} \
+            should be up to \
+            {self.init_collery}')
 
     @classmethod
     def set_collery_amount(cls, amount):
@@ -41,7 +44,12 @@ class Person:
 
     @classmethod
     def from_string(cls, person_str):
-        name, surname, id = person_str.split('-')
+        if len(person_str.split('-')) != 3:
+            raise Exception(f'Check strature of string!!\
+                It should have exactly three parts example:\
+                jabi-ami-35!!')
+        else:
+            name, surname, id = person_str.split('-')
         return cls(name, surname, id)
     
     @staticmethod
