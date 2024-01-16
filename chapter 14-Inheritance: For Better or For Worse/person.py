@@ -1,3 +1,6 @@
+from collections import OrderedDict
+import collections
+
 class Person:
 
     num_of_persons = 0
@@ -61,3 +64,29 @@ class Person:
         
 class Female(Person):
     pass
+
+class LastUpdateOrderedDict(OrderedDict):
+
+    def __init__(self, a: None, b: None) -> None:
+        super().__init__(a, b)
+
+    def __setitem__(self, key: None, value: None) -> None:
+        super().__setitem__(self, key, value)
+        self.move_to_end(key, value)
+    
+class DoppelDict(dict):
+    def __setitem__(self, key, value):
+        super().__setitem__(key, [value] * 2)
+
+
+class AnswerDict(dict):
+    def __getitem__(self, key: None) -> None:
+        return 42
+    
+class DoppelDict2(collections.UserDict):
+    def __setitem__(self, key, value):
+        super().__setitem__(key, [value] * 2)
+
+class AnswerDict2(collections.UserDict):
+    def __getitem__(self, key: None) -> None:
+        return 42
