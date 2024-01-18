@@ -120,4 +120,9 @@ class B(Root):
 
     def pong(self):
         print(f'{self}.pong() in B')
-        super().pong() 
+
+
+class Leaf(A, B):
+    def ping(self) -> None:
+        print(f'{self}.ping() in Leaf')
+        super().ping()
