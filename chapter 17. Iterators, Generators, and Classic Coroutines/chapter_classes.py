@@ -16,3 +16,11 @@ class Sentence:
 
     def __repr__(self):
         return 'Sentence(%s)' % reprlib.repr(self.text)
+    
+class Spam:
+    def __getittem__(self, i):
+        print('->', i)
+        raise IndexError
+    
+    def __iter__(self):
+        pass
