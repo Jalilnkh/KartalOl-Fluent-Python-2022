@@ -1,5 +1,8 @@
 import re
 import reprlib
+from abc import ABC, abstractmethod, abstractproperty
+from collections.abc import Iterable
+
 RE_WORD = re.compile(r'\w+')
 
 class Sentence:
@@ -39,3 +42,36 @@ class Iterator(Iterable):
         if cls is Iterator:
             return _check_methods(C, '__iter__', '__next__')
         return NotImplemented
+    
+
+class Shape(ABC):
+    def __init__(self, shape_name):
+        self.shape_name = shape_name
+    
+    @abstractproperty
+    def name(self):
+        pass
+     
+    @abstractmethod
+    def draw(self):
+        pass
+
+class Circle(Shape):
+    def __init__(self):
+        super().__init__("circle")
+ 
+    @property
+    def name(self):
+        return self.shape_name
+    
+    def draw(self):    
+        print("Drawing a Circle")
+
+
+class Triangle(Shape):
+
+    def __init__(self):
+        super().__init__("triangle")
+
+    def draw(self):
+        print("Drawing a Triangle")
