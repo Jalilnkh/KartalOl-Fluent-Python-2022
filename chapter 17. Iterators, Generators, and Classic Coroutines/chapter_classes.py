@@ -20,6 +20,29 @@ class Sentence:
     def __repr__(self):
         return 'Sentence(%s)' % reprlib.repr(self.text)
     
+    def __iter__(self):
+        return SentenceIterator(self.words)
+    
+    
+
+class SentenceIterator:
+
+    def __init__(self, words) -> None:
+        self.words = words
+        self.index = 0
+    
+    def __next__(self):
+        try:
+            word = self.words[self.index]
+        except IndexError:
+            raise StopIteration()
+        self.index +=1
+        return word
+    
+    def __iter__(self):
+        return self
+    
+    
 class Spam:
     def __getittem__(self, i):
         print('->', i)
