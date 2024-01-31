@@ -20,6 +20,29 @@ class Sentence:
     def __repr__(self):
         return 'Sentence(%s)' % reprlib.repr(self.text)
     
+    def __iter__(self):
+        return SentenceIterator(self.words)
+    
+    
+
+class SentenceIterator:
+
+    def __init__(self, words) -> None:
+        self.words = words
+        self.index = 0
+    
+    def __next__(self):
+        try:
+            word = self.words[self.index]
+        except IndexError:
+            raise StopIteration()
+        self.index +=1
+        return word
+    
+    def __iter__(self):
+        return self
+    
+    
 class Spam:
     def __getittem__(self, i):
         print('->', i)
@@ -75,3 +98,36 @@ class Triangle(Shape):
 
     def draw(self):
         print("Drawing a Triangle")
+
+
+class LazySentence:
+
+    def __init__(self, text):
+        self.text = text
+
+    def __repr__(self):
+        return 'Sentence(%s)' % reprlib.repr(self.text)
+    
+    def __iter__(self):
+        for match in RE_WORD.finditer(self.text):
+            yield match.group()
+
+
+class ArithmeticProgression:
+    def __init__(self, begin, step, end=None):
+        self.begin = begin
+        self.step = step
+        self.end = end  # None -> "infinite" series
+
+    def __iter__(self):
+        result_type = type(self.begin + self.step)
+        result = result_type(self.begin)
+        forever = self.end is None
+        index = 0
+        while forever or result < self.end:
+            yield result
+            index += 1
+            result = self.begin + self.step * index
+
+
+    
