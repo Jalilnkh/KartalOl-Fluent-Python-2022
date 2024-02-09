@@ -2,3 +2,8 @@ matplotlib
 numpy
 pandas
 pytest
+pytorch-metric-learning
+faiss-gpu
+umap-learn
+pynndescent
+record-keeper
