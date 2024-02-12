@@ -31,7 +31,6 @@ class Net(nn.Module):
         x = self.fc1(x)
         return x
 
-
 ### MNIST code originally from https://github.com/pytorch/examples/blob/master/mnist/main.py ###
 def train(model, loss_func, mining_func, device, train_loader, optimizer, epoch):
     model.train()
@@ -55,21 +54,6 @@ def train(model, loss_func, mining_func, device, train_loader, optimizer, epoch)
 def get_all_embeddings(dataset, model):
     tester = testers.BaseTester()
     return tester.get_all_embeddings(dataset, model)
-
-
-### compute accuracy using AccuracyCalculator from pytorch-metric-learning ###
-def test(train_set, test_set, model, accuracy_calculator):
-    train_embeddings, train_labels = get_all_embeddings(train_set, model)
-    test_embeddings, test_labels = get_all_embeddings(test_set, model)
-    train_labels = train_labels.squeeze(1)
-    test_labels = test_labels.squeeze(1)
-    print("Computing accuracy")
-    accuracies = accuracy_calculator.get_accuracy(
-        test_embeddings, test_labels, train_embeddings, train_labels, False
-    )
-    print("Test set accuracy (Precision@1) = {}".format(accuracies["precision_at_1"]))
-
-
 device = torch.device("cuda")
 
 transform = transforms.Compose(
@@ -89,7 +73,6 @@ model = Net().to(device)
 optimizer = optim.Adam(model.parameters(), lr=0.01)
 num_epochs = 1
 
-
 ### pytorch-metric-learning stuff ###
 distance = distances.CosineSimilarity()
 reducer = reducers.ThresholdReducer(low=0)
@@ -97,7 +80,5 @@ loss_func = losses.TripletMarginLoss(margin=0.2, distance=distance, reducer=redu
 mining_func = miners.TripletMarginMiner(
     margin=0.2, distance=distance, type_of_triplets="semihard"
 )
-
-
 for epoch in range(1, num_epochs + 1):
     train(model, loss_func, mining_func, device, train_loader, optimizer, epoch)
