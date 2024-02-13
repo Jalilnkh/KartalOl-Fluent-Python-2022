@@ -56,7 +56,7 @@ def get_all_embeddings(dataset, model):
     return tester.get_all_embeddings(dataset, model)
 device = torch.device("cuda")
 num_workers = 16
-samples_per_class = 8
+samples_per_class = 4
 use_batch_size = True
 cuda_devices = [0]
 transform = transforms.Compose(
@@ -64,7 +64,7 @@ transform = transforms.Compose(
     transforms.Normalize((0.1307,), (0.3081,))]
 )
 
-batch_size = 32
+batch_size = 8
 
 train_dataset = datasets.MNIST(
     ".",
@@ -72,21 +72,14 @@ train_dataset = datasets.MNIST(
     download=True,
     transform=transform)
 
-if len(cuda_devices) > 1:
-    train_sampler = DDP_MPerClassSampler(
-        dataset=train_dataset,
-        labels=train_dataset.targets,
-        m=samples_per_class,
-        batch_size=batch_size)
-else:
-    train_sampler = samplers.MPerClassSampler(
-        train_dataset.targets, 
-        m=samples_per_class,
-        length_before_new_iter=len(train_dataset),
-        batch_size=batch_size if use_batch_size else None
-    )
+train_sampler = samplers.MPerClassSampler(
+    train_dataset.targets, 
+    m=samples_per_class,
+    length_before_new_iter=len(train_dataset),
+    batch_size=batch_size if use_batch_size else None
+)
 
-loader = torch.utils.data.DataLoader(
+train_loader = torch.utils.data.DataLoader(
     train_dataset,
     batch_size=batch_size,
     drop_last=True,
@@ -95,17 +88,11 @@ loader = torch.utils.data.DataLoader(
     sampler=train_sampler
 )
 
-train_loader = torch.utils.data.DataLoader(
-    train_dataset,
-    batch_size=batch_size,
-    shuffle=True
-)
-
 model = Net().to(device)
 optimizer = optim.Adam(
     model.parameters(),
     lr=0.01)
-num_epochs = 1
+num_epochs = 3
 
 ### pytorch-metric-learning stuff ###
 distance = distances.CosineSimilarity()
