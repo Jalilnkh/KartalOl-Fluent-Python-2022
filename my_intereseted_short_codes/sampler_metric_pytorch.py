@@ -2,12 +2,12 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 import torch.optim as optim
+from pytorch_metric_learning import samplers
 
 ### MNIST code originally from https://github.com/pytorch/examples/blob/master/mnist/main.py ###
 from torchvision import datasets, transforms
 
 from pytorch_metric_learning import distances, losses, miners, reducers, testers
-from pytorch_metric_learning.utils.accuracy_calculator import AccuracyCalculator
 
 
 ### MNIST code originally from https://github.com/pytorch/examples/blob/master/mnist/main.py ###
@@ -55,30 +55,69 @@ def get_all_embeddings(dataset, model):
     tester = testers.BaseTester()
     return tester.get_all_embeddings(dataset, model)
 device = torch.device("cuda")
-
+num_workers = 16
+samples_per_class = 8
+use_batch_size = True
+cuda_devices = [0]
 transform = transforms.Compose(
-    [transforms.ToTensor(), transforms.Normalize((0.1307,), (0.3081,))]
+    [transforms.ToTensor(),
+    transforms.Normalize((0.1307,), (0.3081,))]
 )
 
-batch_size = 256
+batch_size = 32
 
-dataset1 = datasets.MNIST(".", train=True, download=True, transform=transform)
-dataset2 = datasets.MNIST(".", train=False, transform=transform)
+train_dataset = datasets.MNIST(
+    ".",
+    train=True,
+    download=True,
+    transform=transform)
+
+if len(cuda_devices) > 1:
+    train_sampler = DDP_MPerClassSampler(
+        dataset=train_dataset,
+        labels=train_dataset.targets,
+        m=samples_per_class,
+        batch_size=batch_size)
+else:
+    train_sampler = samplers.MPerClassSampler(
+        train_dataset.targets, 
+        m=samples_per_class,
+        length_before_new_iter=len(train_dataset),
+        batch_size=batch_size if use_batch_size else None
+    )
+
+loader = torch.utils.data.DataLoader(
+    train_dataset,
+    batch_size=batch_size,
+    drop_last=True,
+    pin_memory=True,
+    num_workers=num_workers,
+    sampler=train_sampler
+)
+
 train_loader = torch.utils.data.DataLoader(
-    dataset1, batch_size=batch_size, shuffle=True
+    train_dataset,
+    batch_size=batch_size,
+    shuffle=True
 )
-test_loader = torch.utils.data.DataLoader(dataset2, batch_size=batch_size)
 
 model = Net().to(device)
-optimizer = optim.Adam(model.parameters(), lr=0.01)
+optimizer = optim.Adam(
+    model.parameters(),
+    lr=0.01)
 num_epochs = 1
 
 ### pytorch-metric-learning stuff ###
 distance = distances.CosineSimilarity()
 reducer = reducers.ThresholdReducer(low=0)
-loss_func = losses.TripletMarginLoss(margin=0.2, distance=distance, reducer=reducer)
+loss_func = losses.TripletMarginLoss(
+    margin=0.2,
+    distance=distance,
+    reducer=reducer)
 mining_func = miners.TripletMarginMiner(
-    margin=0.2, distance=distance, type_of_triplets="semihard"
+    margin=0.2,
+    distance=distance,
+    type_of_triplets="semihard"
 )
 for epoch in range(1, num_epochs + 1):
     train(model, loss_func, mining_func, device, train_loader, optimizer, epoch)
