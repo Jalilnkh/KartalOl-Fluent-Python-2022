@@ -1,6 +1,7 @@
 venv
+docs
 setuptools
 *.csv
-.pyc
-.pt
+*.pyc
+*.pt
 .env
