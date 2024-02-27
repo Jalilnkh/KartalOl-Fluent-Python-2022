@@ -21,7 +21,8 @@ I am going to read  Fluent Python SECOND EDITION Clear, Concise, and Effective P
 |Chapter 16| Chapter 16. Operator Overloading | Done! | The related codes are being added.|
 |Chapter 17| Chapter 17. Iterators, Generators, and Classic Coroutines | Done! | The related codes are being added.|
 |Chapter 18| Chapter 18. With, match, and else blocks | Done! | The related codes are being added.|
-|Chapter 19| Chapter 19. Concurrency Models in Python | In progress... | The related codes are being added.|
+|Chapter 19| Chapter 19. Concurrency Models in Python | Done! | The related codes are being added.|
+|Chapter 20| Chapter 20. Chapter 20 Concurrent Executors | In progress... | The related codes are being added.|
 
 
 # My interested short project has also been added to this repository.
