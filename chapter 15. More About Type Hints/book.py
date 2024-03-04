@@ -12,10 +12,6 @@ def demo() -> None:
         authors=['Jalil Kartal', 'Jabi'],
         pagecount=456
     )
-    authors = book['authors']
-    if TYPE_CHECKING:
-        reveal_type(authors)
-    authors = 'Jabi'
     book['wieght'] = 4.3
     del book['title']
 

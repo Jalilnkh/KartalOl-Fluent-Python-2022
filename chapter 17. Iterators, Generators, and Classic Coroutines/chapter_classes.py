@@ -63,7 +63,7 @@ class Iterator(Iterable):
     @classmethod
     def __subclasshook__(cls, C):
         if cls is Iterator:
-            return _check_methods(C, '__iter__', '__next__')
+            return None #_check_methods(C, '__iter__', '__next__')
         return NotImplemented
     
 
