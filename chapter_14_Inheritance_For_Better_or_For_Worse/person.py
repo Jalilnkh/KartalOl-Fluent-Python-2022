@@ -153,9 +153,3 @@ class UpperDict(UpperCaseMixin, collections.UserDict):
 
 class UpperCounter(UpperCaseMixin, collections.Counter):
     """Specialized 'Counter' that uppercases string keys"""
-
-
-class ThreadingHTTPServer(
-    socketserver.ThreadingMixIn,
-    HTTPServer):
-    daemon_threads = True
