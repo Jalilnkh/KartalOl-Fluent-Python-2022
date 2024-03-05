@@ -1,7 +1,5 @@
 #%%
-import numpy as np
 import cv2 as cv
-from matplotlib import pyplot as plt
 img = cv.imread('1258.jpg',0)
 # Initiate FAST detector
 star = cv.xfeatures2d.StarDetector_create()
@@ -15,7 +13,6 @@ print( brief.descriptorSize() )
 print( des.flatten())
 print(kp)
 # %%
-
 sift = cv.BRISK_create()
 kp, des = sift.detectAndCompute(img,None)
 print( des.shape)
