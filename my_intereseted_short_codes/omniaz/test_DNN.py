@@ -1,7 +1,5 @@
 #%%
-
-import torch
-from torch import optim, nn
+from torch import nn
 from torchvision import models, transforms
 model = models.vgg16(pretrained=True)
 
