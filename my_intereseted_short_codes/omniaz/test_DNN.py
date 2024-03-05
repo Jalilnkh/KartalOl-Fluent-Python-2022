@@ -1,6 +1,8 @@
 #%%
-from torch import nn
+from torch import nn, device, cuda, no_grad
 from torchvision import models, transforms
+from lshash import LSHash
+
 model = models.vgg16(pretrained=True)
 
 #%%
@@ -30,7 +32,7 @@ model = models.vgg16(pretrained=True)
 new_model = FeatureExtractor(model)
 
 # Change the device to GPU
-device = torch.device('cuda:0' if torch.cuda.is_available() else "cpu")
+device = device('cuda:0' if cuda.is_available() else "cpu")
 new_model = new_model.to(device)
 #%%
 import numpy as np
@@ -57,7 +59,7 @@ img = transform(img)
 img = img.reshape(1, 3, 224, 224)
 img = img.to(device)
 # We only extract features, so we don't need gradient
-with torch.no_grad():
+with no_grad():
     # Extract the feature from the image
     feature = new_model(img)
 # Convert to NumPy Array, Reshape it, and save it to features variable
@@ -70,8 +72,6 @@ features
 # %%
 len(features[0])
 # %%
-from lshash import LSHash
-
 lsh = LSHash(6, 8)
 df = [[0.929,  0.9404, 0.82372,  0.3335, 1.0,   0.654, 0.1,  0.72],
       [0.9239, 0.94,   1.0 ,     0.596,  0.973, 0.338, 0.20, 0.1 ]]
