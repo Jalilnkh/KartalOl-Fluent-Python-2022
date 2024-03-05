@@ -6,7 +6,7 @@ object, we expect to get a TypeError exception.
 """
 from collections.abc import Iterable
 from typing import TYPE_CHECKING, TypeVar, Protocol, Any
-from typing_extensions import reveal_type
+#from typing_extensions import reveal_type
 
 import pytest
 
@@ -25,16 +25,16 @@ def test_top_tuples() -> None:
     length = 3
     excepted = [(6, 'banana'), (5, 'mango'), (5, 'apple')]
     result = top(series, length)
-    if TYPE_CHECKING:
+    """if TYPE_CHECKING:
         reveal_type(series)
         reveal_type(excepted)
-        reveal_type(result)
+        reveal_type(result)"""
     assert result == excepted
 
 def test_top_objects_error() -> None:
     series = [object() for _ in range(4)]
-    if TYPE_CHECKING:
-        reveal_type(series)
+    """if TYPE_CHECKING:
+        reveal_type(series)"""
     with pytest.raises(TypeError) as excinfo:
         top(series, 3)
     assert "'<' not supported" in str(excinfo.value)
