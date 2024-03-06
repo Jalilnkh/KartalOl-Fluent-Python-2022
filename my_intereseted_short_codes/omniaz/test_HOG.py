@@ -1,13 +1,12 @@
 #%% 
 #importing required libraries
-from skimage.io import imread
 from skimage.transform import resize
 from skimage.feature import hog
-from skimage import exposure
 import matplotlib.pyplot as plt
+import cv2
 
 # reading the image
-img = imread('1.jpg')
+img = cv2.imread('1.jpg')
 plt.axis("off")
 plt.imshow(img)
 print(img.shape)
