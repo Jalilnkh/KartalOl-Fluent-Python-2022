@@ -1,6 +1,5 @@
 #%%
 from skimage.feature import local_binary_pattern
-from skimage.io import imread
 import cv2
 # settings for LBP
 radius = 3
