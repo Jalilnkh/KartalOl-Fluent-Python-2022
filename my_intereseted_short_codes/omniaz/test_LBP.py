@@ -6,7 +6,8 @@ radius = 3
 n_points = 8 * radius
 METHOD = 'uniform'
 
-image = cv2.imread('1.jpg', 0)
+image = cv2.imread('1.jpg')
+image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
 print(type(image))
 lbp = local_binary_pattern(image, n_points, radius, METHOD)
 
