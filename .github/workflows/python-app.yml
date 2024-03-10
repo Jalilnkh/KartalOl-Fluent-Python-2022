@@ -40,4 +40,5 @@ jobs:
       run: |
         pytest
     - name: Print a message
+      if: success()
       run: echo "Workflow completed successfully!"
