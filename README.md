@@ -23,7 +23,8 @@ I am going to read  Fluent Python SECOND EDITION Clear, Concise, and Effective P
 |Chapter 18| Chapter 18. With, match, and else blocks | Done! | The related codes are being added.|
 |Chapter 19| Chapter 19. Concurrency Models in Python | Done! | The related codes are being added.|
 |Chapter 20| Chapter 20. Concurrent Executors | Done! | The related codes are being added.|
-|Chapter 21| Chapter 21. Asynchronous Programming | In progress... | The related codes are being added.|
+|Chapter 21| Chapter 21. Asynchronous Programming | Done! | The related codes are being added.|
+|Chapter 22| CHAPTER 22. Dynamic Attributes and Properties | In progress... | The related codes are being added.|
 
 
 # My interested short project has also been added to this repository.
