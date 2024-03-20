@@ -1,6 +1,0 @@
-[submodule "my_intereseted_short_codes/omniaz/MAE"]
-	path = my_intereseted_short_codes/omniaz/MAE
-	url = https://github.com/pengzhiliang/MAE-pytorch
-[submodule "my_intereseted_short_codes/omniaz/MAE_vit"]
-	path = my_intereseted_short_codes/omniaz/MAE_vit
-	url = https://github.com/pengzhiliang/MAE-pytorch
