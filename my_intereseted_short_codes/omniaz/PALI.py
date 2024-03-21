@@ -1,14 +1,12 @@
 import torch
-from pali import VitModel
+from pali import Pali
 
-# Random tensors
-x = torch.randn(1, 3, 256, 256)
+model = Pali()
 
-# Initialize model
-model = VitModel()
+img = torch.randn(1, 3, 256, 256) # Image tensor
+prompt = torch.randint(0, 256, (1, 1024)) # Text integer tensor
+output_text = torch.randint(0, 256, (1, 1024)) # Target Text integer tensor
 
-# Forward pass
-out = model(x)
+out = model.forward(img, prompt, output_text, mask=None)
 
-# Print output shape
-print(out.shape)
+print(out)
