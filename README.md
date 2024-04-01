@@ -25,7 +25,8 @@ I am going to read  Fluent Python SECOND EDITION Clear, Concise, and Effective P
 |Chapter 20| Chapter 20. Concurrent Executors | Done! | The related codes are being added.|
 |Chapter 21| Chapter 21. Asynchronous Programming | Done! | The related codes are being added.|
 |Chapter 22| CHAPTER 22. Dynamic Attributes and Properties | Done! | The related codes are being added.|
-|Chapter 23| CHAPTER 23. Attribute Descriptors | In progress... | The related codes are being added.|
+|Chapter 23| CHAPTER 23. Attribute Descriptors | Done! | The related codes are being added.|
+|Chapter 24| CHAPTER 24. Class Metaprogramming | In progress... | The related codes are being added.|
 
 # My interested short project has also been added to this repository.
 
