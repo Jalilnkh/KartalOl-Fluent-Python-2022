@@ -6,8 +6,6 @@ name: Python application
 on:
   schedule:
     - cron:  '30 5,13 * * 1-5'
-  push:
-    branches: [ "main" ]
   pull_request:
     branches: [ "main" ]
 
@@ -42,3 +40,6 @@ jobs:
     - name: Print a message
       if: success()
       run: echo "Workflow completed successfully!"
+    - name: Deploy to production
+      if: github.ref == 'refs/heads/main' && github.event.pull_request.merged == true
+      run: echo "Deploying to production..."
