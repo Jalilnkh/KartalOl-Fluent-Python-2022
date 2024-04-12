@@ -8,6 +8,7 @@ We will solve 75 LeetCode practice. The following table shows name of problems w
 substring without repeating characters.| Input: s = "abcabcbb", Output: 3, Explanation: The answer is "abc", with the length of 3.| 
 |4. | Median of Two Sorted Arrays| Given two sorted arrays nums1 and nums2 of size m and n respectively, return the median of the two sorted arrays. The overall run time complexity should be O(log (m+n)).| Input: nums1 = [1,3], nums2 = [2], Output: 2.00000, Explanation: merged array = [1,2,3] and median is 2.|
 |5. | Longest Palindromic Substring| Given a string s, return the longest palindromic(A string is palindromic if it reads the same forward and backward.) substring in s.| Input: s = "babad", Output: "bab", Explanation: "aba" is also a valid answer.|
+|6. | Zigzag Conversion | The string "PAYPALISHIRING" is written in a zigzag pattern on a given number of rows like this: (you may want to display this pattern in a fixed font for better legibility) | Input: s = "PAYPALISHIRING", numRows = 3, Output: "PAHNAPLSIIGYIR" |
 
 
 

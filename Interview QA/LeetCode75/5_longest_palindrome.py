@@ -16,11 +16,13 @@ class Solution:
             if max_len > end - start:
                 start = i - (max_len - 1) // 2
                 end = i + max_len // 2
+            if i == 2:
+                print(start , "and", end, "and", max_len)
 
         return s[start:end + 1]
 
 if __name__ == "__main__":
-    s = 'kartalol'
+    s = 'ardrabir'
     sol = Solution()
 
     print(sol.longest_palindrome(s))
