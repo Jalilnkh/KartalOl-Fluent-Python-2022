@@ -9,6 +9,6 @@ substring without repeating characters.| Input: s = "abcabcbb", Output: 3, Expla
 |4. | Median of Two Sorted Arrays| Given two sorted arrays nums1 and nums2 of size m and n respectively, return the median of the two sorted arrays. The overall run time complexity should be O(log (m+n)).| Input: nums1 = [1,3], nums2 = [2], Output: 2.00000, Explanation: merged array = [1,2,3] and median is 2.|
 |5. | Longest Palindromic Substring| Given a string s, return the longest palindromic(A string is palindromic if it reads the same forward and backward.) substring in s.| Input: s = "babad", Output: "bab", Explanation: "aba" is also a valid answer.|
 |6. | Zigzag Conversion | The string "PAYPALISHIRING" is written in a zigzag pattern on a given number of rows like this: (you may want to display this pattern in a fixed font for better legibility) | Input: s = "PAYPALISHIRING", numRows = 3, Output: "PAHNAPLSIIGYIR" |
-
+|7. | Reverse Integer | Given a signed 32-bit integer x, return x with its digits reversed. If reversing x causes the value to go outside the signed 32-bit integer range [-231, 231 - 1], then return 0.| Input: x = 123, Output: 321|
 
 
