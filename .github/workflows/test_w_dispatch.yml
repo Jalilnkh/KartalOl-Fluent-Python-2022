@@ -34,3 +34,13 @@ jobs:
         run: |
           echo Add other actions to build,
           echo test, and deploy your project.
+
+  security:
+    runs-on: ubuntu-latest
+    env:
+      LOG_LEVEL: debug
+    steps:
+    - name: Print secret
+      run: echo "Secret is ${{ secrets.MY_SECRET }}"
+    - name: Use environment variable
+      run: echo "Environment variable is $LOG_LEVEL"
