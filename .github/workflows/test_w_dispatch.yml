@@ -41,6 +41,6 @@ jobs:
       LOG_LEVEL: debug
     steps:
     - name: Print secret
-      run: echo "Secret is ${{ secrets.MY_SECRET }}"
+      run: echo "Secret is ${{ secrets.API_TOKENS }}"
     - name: Use environment variable
-      run: echo "Environment variable is $LOG_LEVEL"
+      run: echo "Environment variable is $API_TOKENS"
