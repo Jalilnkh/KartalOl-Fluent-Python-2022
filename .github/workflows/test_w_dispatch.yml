@@ -46,3 +46,10 @@ jobs:
       run: echo "Environment variable is $API_TOKENS"
       env:
         API_KEY: ${{ secrets.API_TOKENS }}
+    - name: Print environment variables
+      run: |
+        echo "Workflow Name: $GITHUB_WORKFLOW"
+        echo "Run Number: $GITHUB_RUN_NUMBER"
+        echo "Repository: $GITHUB_REPOSITORY"
+        echo "Actor: $GITHUB_ACTOR"
+        echo "Event Name: $GITHUB_EVENT_NAME"
