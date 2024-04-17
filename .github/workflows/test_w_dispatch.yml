@@ -53,3 +53,4 @@ jobs:
         echo "Repository: $GITHUB_REPOSITORY"
         echo "Actor: $GITHUB_ACTOR"
         echo "Event Name: $GITHUB_EVENT_NAME"
+        echo "GitHub Action: $GITHUB_TOKEN"
