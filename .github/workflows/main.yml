@@ -17,6 +17,12 @@ jobs:
     - uses: actions/checkout@v2
     - name: Run tests
       run: echo "Running tests..."
+    - name: Run a script
+      run: |
+          echo "Starting the script..."
+          # Assuming there's a script.sh at the root of the repository
+          chmod +x ./github_action_tes.sh
+          ./github_action_test.sh
 
   deploy:
     needs: test
@@ -25,3 +31,4 @@ jobs:
     - uses: actions/checkout@v2
     - name: Deploy the project
       run: echo "Deploying the project..."
+  
