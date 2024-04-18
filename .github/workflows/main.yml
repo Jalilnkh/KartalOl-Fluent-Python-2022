@@ -21,7 +21,7 @@ jobs:
       run: |
           echo "Starting the script..."
           # Assuming there's a script.sh at the root of the repository
-          chmod +x ./github_action_tes.sh
+          chmod +x ./github_action_test.sh
           ./github_action_test.sh
 
   deploy:
