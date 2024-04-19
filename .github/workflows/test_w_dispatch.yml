@@ -51,6 +51,7 @@ jobs:
         echo "Workflow Name: $GITHUB_WORKFLOW"
         echo "Run Number: $GITHUB_RUN_NUMBER"
         echo "Repository: $GITHUB_REPOSITORY"
+        echo "Branch name: $GITHUB_REF_NAME"
         echo "Actor: $GITHUB_ACTOR"
         echo "Event Name: $GITHUB_EVENT_NAME"
         echo "GitHub Action: ${{ secrets.GITHUB_TOKEN }}"
