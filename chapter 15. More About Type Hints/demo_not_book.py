@@ -12,9 +12,6 @@ def demo() -> None:
     "authors": true}
     """
     not_book = from_json2(NOT_BOOK_JSON)
-    if TYPE_CHECKING:
-        reveal_type(not_book)
-        reveal_type(not_book['authors'])
     
     print(not_book)
     print(not_book['flavor'])

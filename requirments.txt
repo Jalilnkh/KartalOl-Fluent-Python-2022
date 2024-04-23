@@ -1,5 +1,10 @@
 matplotlib
+opencv-python
+torch 
+torchvision 
+torchaudio
 numpy
+skimage
 pandas
 pytest
 pytorch-metric-learning

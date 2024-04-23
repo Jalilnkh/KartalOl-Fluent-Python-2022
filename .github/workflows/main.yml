@@ -1,0 +1,41 @@
+name: Dependent Jobs
+
+on: 
+  pull_request:
+    branches:
+      - main
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Build the project
+      run: echo "Building the project..."
+
+  test:
+    needs: build
+    runs-on: ubuntu-latest
+    environment: staging
+    steps:
+    - uses: actions/checkout@v2
+    - name: Run tests
+      run: echo "Running tests..."
+    - name: Run a script
+      run: |
+          echo "Starting the script..."
+          # Assuming there's a script.sh at the root of the repository
+          chmod +x ./github_action_test.sh
+          ./github_action_test.sh
+
+  deploy:
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Deploy the project
+      run: echo "Deploying the project..."
+  

@@ -1,4 +1,7 @@
-venv10
+venv
+docs
 setuptools
 *.csv
-doc
+*.pyc
+*.pt
+.env
