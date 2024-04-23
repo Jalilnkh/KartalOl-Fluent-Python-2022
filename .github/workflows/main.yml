@@ -19,7 +19,7 @@ jobs:
   test:
     needs: build
     runs-on: ubuntu-latest
-    environment: staging
+    # environment: staging
     steps:
     - uses: actions/checkout@v2
     - name: Run tests
