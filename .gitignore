@@ -5,3 +5,5 @@ setuptools
 *.pyc
 *.pt
 .env
+Interview QA/data
+*.gif
