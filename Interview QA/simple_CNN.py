@@ -31,6 +31,33 @@ class LayerDense:
     def forward(self, inputs):
         self.output = np.dot(inputs, self.wieghts) + self.biases
 
+
+class Sofmax:
+    def forward(self, inputs):
+        exp_value = np.exp(inputs * np.max(inputs, axis=1, keepdims=True))
+        probabilities = exp_value / np.sum(exp_value, axis=1, keepdims=True)
+        self.output = probabilities
+class Loss:
+    def calculate(self, output, y):
+        sample_loses = self.forward(output, y)
+        data_loss = np.mean(sample_loses)
+        return data_loss
+    
+
+class LossCategoricalCrossEntropy(Loss):
+    def forward(self, y_pred, y_true):
+        samples = len(y_pred)
+        y_pred_clipped = np.clip(y_pred, 1e-7, 1-1e-7)
+
+        if len(y_true.shape) == 1:
+            correct_confidences = y_pred_clipped[range(samples), y_true]
+        elif len(y_true.shape) == 2:
+            correct_confidences = np.sum(y_pred_clipped*y_true, axis=1)
+        
+        negative_log_likelihoods = -np.log(correct_confidences)
+        return negative_log_likelihoods
+
+
 X, y = create_data(100, 3)
 
 
@@ -42,7 +69,18 @@ plt.show()
 
 layer1 = LayerDense(2, 6)
 activation1 = ActivationReLU()
+layer2 = LayerDense(6, 10)
+activation2 = ActivationReLU()
+layer3 = LayerDense(10, 3)
+activation3 = Sofmax()
 
 layer1.forward(X)
 activation1.forward(layer1.output)
+layer2.forward(activation1.output)
+activation2.forward(layer2.output)
+layer3.forward(activation2.output)
+activation3.forward(layer3.output)
+loss_func = LossCategoricalCrossEntropy()
+loss = loss_func.calculate(activation3.output, y)
+print(loss)
 
