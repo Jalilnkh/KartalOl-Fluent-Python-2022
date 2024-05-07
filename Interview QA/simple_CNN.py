@@ -1,86 +1,154 @@
-# This code is taken from sentdex youtube video
-
 import numpy as np
-import matplotlib.pyplot as plt
-
-np.random.seed(0)
-
-def create_data(points, classes):
-    X = np.zeros((points*classes, 2))
-    y = np.zeros((points*classes), dtype='uint8')
-    for class_number in range(classes):
-        ix = range(points*class_number, points*(class_number+1))
-        r = np.linspace(0.0, 1, points)
-        t = np.linspace(class_number*4, (class_number+1)*4, points) + np.random.randn(points)*0.2
-        X[ix] = np.c_[r*np.sin(t*2.5), r*np.cos(t*2.5)]
-        y[ix] = class_number
-    return X, y
+from abc import ABC, abstractmethod
 
 
-class ActivationReLU:
-    def forward(self, inputs):
-        self.output = np.maximum(0, inputs)
+def create_weight_matrix(nrows, ncols):
+    """Create a weight matrix with normally distributed random elements."""
+    return np.random.default_rng().normal(loc=0, scale=1/(nrows*ncols), size=(nrows, ncols))
+
+def create_bias_vector(length):
+    """Create a bias vector with normally distributed random elements."""
+    return create_weight_matrix(length, 1)
 
 
-class LayerDense:
-    def __init__(self, n_inputs, n_neurons) -> None:
-        # 0.10 to brought value to around -1 to +1
-        self.wieghts = 0.10 * np.random.randn(n_inputs, n_neurons)
-        self.biases = np.zeros((1, n_neurons))
+class ActivationFunction:
+    """Class to be inherited by activation functions."""
+    @abstractmethod
+    def f(self, x):
+        """The method that implements the function."""
+        pass
 
-    def forward(self, inputs):
-        self.output = np.dot(inputs, self.wieghts) + self.biases
+    @abstractmethod
+    def df(self, x):
+        """Derivative of the function with respect to its input."""
+        pass
 
+class LeakyReLU(ActivationFunction):
+    """Leaky Rectified Linear Unit."""
+    def __init__(self, leaky_param=0.1):
+        self.alpha = leaky_param
 
-class Sofmax:
-    def forward(self, inputs):
-        exp_value = np.exp(inputs * np.max(inputs, axis=1, keepdims=True))
-        probabilities = exp_value / np.sum(exp_value, axis=1, keepdims=True)
-        self.output = probabilities
-class Loss:
-    def calculate(self, output, y):
-        sample_loses = self.forward(output, y)
-        data_loss = np.mean(sample_loses)
-        return data_loss
-    
+    def f(self, x):
+        return np.maximum(x, x*self.alpha)
 
-class LossCategoricalCrossEntropy(Loss):
-    def forward(self, y_pred, y_true):
-        samples = len(y_pred)
-        y_pred_clipped = np.clip(y_pred, 1e-7, 1-1e-7)
+    def df(self, x):
+        return np.maximum(x > 0, self.alpha)
 
-        if len(y_true.shape) == 1:
-            correct_confidences = y_pred_clipped[range(samples), y_true]
-        elif len(y_true.shape) == 2:
-            correct_confidences = np.sum(y_pred_clipped*y_true, axis=1)
-        
-        negative_log_likelihoods = -np.log(correct_confidences)
-        return negative_log_likelihoods
+class Sigmoid(ActivationFunction):
+    def f(self, x):
+        return 1/(1 + np.exp(-x))
+
+    def df(self, x):
+        return self.f(x) * (1 - self.f(x))
 
 
-X, y = create_data(100, 3)
+class LossFunction:
+    """Class to be inherited by loss functions."""
+    @abstractmethod
+    def loss(self, values, expected):
+        """Compute the loss of the computed values with respect to the expected ones."""
+        pass
+
+    @abstractmethod
+    def dloss(self, values, expected):
+        """Derivative of the loss with respect to the computed values."""
+        pass
+
+class MSELoss(LossFunction):
+    """Mean Squared Error Loss function."""
+    def loss(self, values, expected):
+        return np.mean((values - expected)**2)
+
+    def dloss(self, values, expected):
+        return 2*(values - expected)/values.size
+
+class CrossEntropyLoss(LossFunction):
+    """Cross entropy loss function following the pytorch docs."""
+    def loss(self, values, target_class):
+        return -values[target_class, 0] + np.log(np.sum(np.exp(values)))
+
+    def dloss(self, values, target_class):
+        d = np.exp(values)/np.sum(np.exp(values))
+        d[target_class, 0] -= 1
+        return d
 
 
-plt.scatter(X[:,0], X[:,1])
-plt.show()
+class Layer:
+    """Model the connections between two sets of neurons in a network."""
+    def __init__(self, ins, outs, act_function):
+        self.ins = ins
+        self.outs = outs
+        self.act_function = act_function
 
-plt.scatter(X[:,0], X[:,1], c=y, cmap="brg")
-plt.show()
+        self._W = create_weight_matrix(self.outs, self.ins)
+        self._b = create_bias_vector(self.outs)
 
-layer1 = LayerDense(2, 6)
-activation1 = ActivationReLU()
-layer2 = LayerDense(6, 10)
-activation2 = ActivationReLU()
-layer3 = LayerDense(10, 3)
-activation3 = Sofmax()
+    def forward_pass(self, x):
+        """Compute the next set of neuron states with the given set of states."""
+        return self.act_function.f(np.dot(self._W, x) + self._b)
 
-layer1.forward(X)
-activation1.forward(layer1.output)
-layer2.forward(activation1.output)
-activation2.forward(layer2.output)
-layer3.forward(activation2.output)
-activation3.forward(layer3.output)
-loss_func = LossCategoricalCrossEntropy()
-loss = loss_func.calculate(activation3.output, y)
-print(loss)
 
+class NeuralNetwork:
+    """A series of connected, compatible layers."""
+    def __init__(self, layers, loss_function, learning_rate):
+        self._layers = layers
+        self._loss_function = loss_function
+        self.lr = learning_rate
+
+        # Check layer compatibility
+        for (from_, to_) in zip(self._layers[:-1], self._layers[1:]):
+            if from_.outs != to_.ins:
+                raise ValueError("Layers should have compatible shapes.")
+
+    def forward_pass(self, x):
+        out = x
+        for layer in self._layers:
+            out = layer.forward_pass(out)
+        return out
+
+    def loss(self, values, expected):
+        return self._loss_function.loss(values, expected)
+
+    def train(self, x, t):
+        """Train the network on input x and expected output t."""
+
+        # Accumulate intermediate results during forward pass.
+        xs = [x]
+        for layer in self._layers:
+            xs.append(layer.forward_pass(xs[-1]))
+
+        dx = self._loss_function.dloss(xs.pop(), t)
+        for layer, x in zip(self._layers[::-1], xs[::-1]):
+            # Compute the derivatives
+            y = np.dot(layer._W, x) + layer._b
+            db = layer.act_function.df(y) * dx
+            dx = np.dot(layer._W.T, db)
+            dW = np.dot(db, x.T)
+            # Update parameters.
+            layer._W -= self.lr * dW
+            layer._b -= self.lr * db
+
+
+if __name__ == "__main__":
+    """Demo of a network as a series of layers."""
+    net = NeuralNetwork([
+        Layer(2, 4, LeakyReLU()),
+        Layer(4, 4, LeakyReLU()),
+        Layer(4, 3, LeakyReLU()),
+    ], MSELoss(), 0.001)
+    t = np.zeros(shape=(3, 1))
+
+    loss = 0
+    for _ in range(100):
+        x = np.random.normal(size=(2, 1))
+        loss += net.loss(net.forward_pass(x), t)
+    print(loss)
+
+    for _ in range(10000):
+        net.train(np.random.normal(size=(2, 1)), t)
+
+    loss = 0
+    for _ in range(100):
+        x = np.random.normal(size=(2, 1))
+        loss += net.loss(net.forward_pass(x), t)
+    print(loss)
