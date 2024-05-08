@@ -1,154 +1,76 @@
 import numpy as np
-from abc import ABC, abstractmethod
 
+class LeakyReLU:
+    def __call__(self, x):
+        return np.where(x > 0, x, 0.01 * x)
 
-def create_weight_matrix(nrows, ncols):
-    """Create a weight matrix with normally distributed random elements."""
-    return np.random.default_rng().normal(loc=0, scale=1/(nrows*ncols), size=(nrows, ncols))
-
-def create_bias_vector(length):
-    """Create a bias vector with normally distributed random elements."""
-    return create_weight_matrix(length, 1)
-
-
-class ActivationFunction:
-    """Class to be inherited by activation functions."""
-    @abstractmethod
-    def f(self, x):
-        """The method that implements the function."""
-        pass
-
-    @abstractmethod
-    def df(self, x):
-        """Derivative of the function with respect to its input."""
-        pass
-
-class LeakyReLU(ActivationFunction):
-    """Leaky Rectified Linear Unit."""
-    def __init__(self, leaky_param=0.1):
-        self.alpha = leaky_param
-
-    def f(self, x):
-        return np.maximum(x, x*self.alpha)
-
-    def df(self, x):
-        return np.maximum(x > 0, self.alpha)
-
-class Sigmoid(ActivationFunction):
-    def f(self, x):
-        return 1/(1 + np.exp(-x))
-
-    def df(self, x):
-        return self.f(x) * (1 - self.f(x))
-
-
-class LossFunction:
-    """Class to be inherited by loss functions."""
-    @abstractmethod
-    def loss(self, values, expected):
-        """Compute the loss of the computed values with respect to the expected ones."""
-        pass
-
-    @abstractmethod
-    def dloss(self, values, expected):
-        """Derivative of the loss with respect to the computed values."""
-        pass
-
-class MSELoss(LossFunction):
-    """Mean Squared Error Loss function."""
-    def loss(self, values, expected):
-        return np.mean((values - expected)**2)
-
-    def dloss(self, values, expected):
-        return 2*(values - expected)/values.size
-
-class CrossEntropyLoss(LossFunction):
-    """Cross entropy loss function following the pytorch docs."""
-    def loss(self, values, target_class):
-        return -values[target_class, 0] + np.log(np.sum(np.exp(values)))
-
-    def dloss(self, values, target_class):
-        d = np.exp(values)/np.sum(np.exp(values))
-        d[target_class, 0] -= 1
-        return d
-
+class MSELoss:
+    def __call__(self, pred, true):
+        return np.mean((pred - true) ** 2)
 
 class Layer:
-    """Model the connections between two sets of neurons in a network."""
-    def __init__(self, ins, outs, act_function):
-        self.ins = ins
-        self.outs = outs
-        self.act_function = act_function
+    def __init__(self, input_dim, output_dim, activation):
+        self.weights = np.random.randn(input_dim, output_dim) * 0.1  # Initialize weights
+        self.bias = np.zeros(output_dim)
+        self.activation = activation
 
-        self._W = create_weight_matrix(self.outs, self.ins)
-        self._b = create_bias_vector(self.outs)
-
-    def forward_pass(self, x):
-        """Compute the next set of neuron states with the given set of states."""
-        return self.act_function.f(np.dot(self._W, x) + self._b)
-
+    def forward(self, x):
+        z = np.dot(x, self.weights) + self.bias
+        return self.activation(z)
 
 class NeuralNetwork:
-    """A series of connected, compatible layers."""
-    def __init__(self, layers, loss_function, learning_rate):
-        self._layers = layers
-        self._loss_function = loss_function
-        self.lr = learning_rate
-
-        # Check layer compatibility
-        for (from_, to_) in zip(self._layers[:-1], self._layers[1:]):
-            if from_.outs != to_.ins:
-                raise ValueError("Layers should have compatible shapes.")
+    def __init__(self, layers, loss_fn, learning_rate):
+        self.layers = layers
+        self.loss_fn = loss_fn
+        self.learning_rate = learning_rate
 
     def forward_pass(self, x):
-        out = x
-        for layer in self._layers:
-            out = layer.forward_pass(out)
-        return out
+        for layer in self.layers:
+            x = layer.forward(x)
+        return x
 
-    def loss(self, values, expected):
-        return self._loss_function.loss(values, expected)
+    def compute_loss(self, pred, true):
+        return self.loss_fn(pred, true)
 
-    def train(self, x, t):
-        """Train the network on input x and expected output t."""
+    def train(self, x, y):
+        # Dummy function for training
+        predictions = self.forward_pass(x)
+        return self.compute_loss(predictions, y)
 
-        # Accumulate intermediate results during forward pass.
-        xs = [x]
-        for layer in self._layers:
-            xs.append(layer.forward_pass(xs[-1]))
+def generate_syn_data(num_samples, img_dim1, img_dim2, num_classes):
+    X_train = np.random.rand(int(0.9*num_samples), img_dim1 * img_dim2)  # Generate random flat images
+    y_train = np.random.randint(0, num_classes, size=(int(0.9*num_samples), 1))  # Random labels
+    X_test = np.random.rand(int(0.1*num_samples), img_dim1 * img_dim2)  # Generate random flat images
+    y_test = np.random.randint(0, num_classes, size=(int(0.1*num_samples), 1))  # Random labels
+    return X_train, y_train, X_test, y_test
 
-        dx = self._loss_function.dloss(xs.pop(), t)
-        for layer, x in zip(self._layers[::-1], xs[::-1]):
-            # Compute the derivatives
-            y = np.dot(layer._W, x) + layer._b
-            db = layer.act_function.df(y) * dx
-            dx = np.dot(layer._W.T, db)
-            dW = np.dot(db, x.T)
-            # Update parameters.
-            layer._W -= self.lr * dW
-            layer._b -= self.lr * db
+# Correct the network architecture
+net = NeuralNetwork([
+    Layer(784, 10, LeakyReLU()),  # Corrected input dimension
+    Layer(10, 4, LeakyReLU()),
+    Layer(4, 10, LeakyReLU()),
+    Layer(10, 4, LeakyReLU()),
+    Layer(4, 10, LeakyReLU()),
+], MSELoss(), 0.001)
 
+# Generate synthetic data
+X_train, y_train, X_test, y_test = generate_syn_data(1000, 28, 28, 10)  # Correct dimensions and number of classes
 
-if __name__ == "__main__":
-    """Demo of a network as a series of layers."""
-    net = NeuralNetwork([
-        Layer(2, 4, LeakyReLU()),
-        Layer(4, 4, LeakyReLU()),
-        Layer(4, 3, LeakyReLU()),
-    ], MSELoss(), 0.001)
-    t = np.zeros(shape=(3, 1))
+epochs = 20
+batch_size = 100  # Assuming batch processing
 
+for epoch in range(epochs):
     loss = 0
-    for _ in range(100):
-        x = np.random.normal(size=(2, 1))
-        loss += net.loss(net.forward_pass(x), t)
-    print(loss)
+    e_loss = 0
+    # Iterate over batches
+    for i in range(0, 900, batch_size):
+        batch_X = X_train[i:i+batch_size]
+        batch_y = y_train[i:i+batch_size]
+        loss += net.train(batch_X, batch_y)
 
-    for _ in range(10000):
-        net.train(np.random.normal(size=(2, 1)), t)
+    # Evaluation (simple example, without proper data separation)
+    pred = net.forward_pass(X_test)
+    e_loss = net.compute_loss(pred, y_test)
 
-    loss = 0
-    for _ in range(100):
-        x = np.random.normal(size=(2, 1))
-        loss += net.loss(net.forward_pass(x), t)
-    print(loss)
+    print(f"Epoch {epoch+1}, Training Loss: {loss / (100 / batch_size)}")
+    print(f"Epoch {epoch+1}, Evaluated Loss: {e_loss / 100}")
