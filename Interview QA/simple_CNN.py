@@ -1,76 +1,56 @@
 import numpy as np
+from keras.datasets import mnist
+from keras.utils import np_utils
 
-class LeakyReLU:
-    def __call__(self, x):
-        return np.where(x > 0, x, 0.01 * x)
+from cnn_classes import (
+    Dense, Convolutional,
+    Reshape,
+    Sigmoid,
+    binary_cross_entropy, 
+    binary_cross_entropy_prime,
+    train, 
+    predict)
 
-class MSELoss:
-    def __call__(self, pred, true):
-        return np.mean((pred - true) ** 2)
+def preprocess_data(x, y, limit):
+    zero_index = np.where(y == 0)[0][:limit]
+    one_index = np.where(y == 1)[0][:limit]
+    all_indices = np.hstack((zero_index, one_index))
+    all_indices = np.random.permutation(all_indices)
+    x, y = x[all_indices], y[all_indices]
+    x = x.reshape(len(x), 1, 28, 28)
+    x = x.astype("float32") / 255
+    y = np_utils.to_categorical(y)
+    y = y.reshape(len(y), 2, 1)
+    return x, y
 
-class Layer:
-    def __init__(self, input_dim, output_dim, activation):
-        self.weights = np.random.randn(input_dim, output_dim) * 0.1  # Initialize weights
-        self.bias = np.zeros(output_dim)
-        self.activation = activation
+# load MNIST from server, limit to 100 images per class since we're not training on GPU
+(x_train, y_train), (x_test, y_test) = mnist.load_data()
+x_train, y_train = preprocess_data(x_train, y_train, 100)
+x_test, y_test = preprocess_data(x_test, y_test, 100)
 
-    def forward(self, x):
-        z = np.dot(x, self.weights) + self.bias
-        return self.activation(z)
+# neural network
+network = [
+    Convolutional((1, 28, 28), 3, 5),
+    Sigmoid(),
+    Reshape((5, 26, 26), (5 * 26 * 26, 1)),
+    Dense(5 * 26 * 26, 100),
+    Sigmoid(),
+    Dense(100, 2),
+    Sigmoid()
+]
 
-class NeuralNetwork:
-    def __init__(self, layers, loss_fn, learning_rate):
-        self.layers = layers
-        self.loss_fn = loss_fn
-        self.learning_rate = learning_rate
+# train
+train(
+    network,
+    binary_cross_entropy,
+    binary_cross_entropy_prime,
+    x_train,
+    y_train,
+    epochs=20,
+    learning_rate=0.1
+)
 
-    def forward_pass(self, x):
-        for layer in self.layers:
-            x = layer.forward(x)
-        return x
-
-    def compute_loss(self, pred, true):
-        return self.loss_fn(pred, true)
-
-    def train(self, x, y):
-        # Dummy function for training
-        predictions = self.forward_pass(x)
-        return self.compute_loss(predictions, y)
-
-def generate_syn_data(num_samples, img_dim1, img_dim2, num_classes):
-    X_train = np.random.rand(int(0.9*num_samples), img_dim1 * img_dim2)  # Generate random flat images
-    y_train = np.random.randint(0, num_classes, size=(int(0.9*num_samples), 1))  # Random labels
-    X_test = np.random.rand(int(0.1*num_samples), img_dim1 * img_dim2)  # Generate random flat images
-    y_test = np.random.randint(0, num_classes, size=(int(0.1*num_samples), 1))  # Random labels
-    return X_train, y_train, X_test, y_test
-
-# Correct the network architecture
-net = NeuralNetwork([
-    Layer(784, 10, LeakyReLU()),  # Corrected input dimension
-    Layer(10, 4, LeakyReLU()),
-    Layer(4, 10, LeakyReLU()),
-    Layer(10, 4, LeakyReLU()),
-    Layer(4, 10, LeakyReLU()),
-], MSELoss(), 0.001)
-
-# Generate synthetic data
-X_train, y_train, X_test, y_test = generate_syn_data(1000, 28, 28, 10)  # Correct dimensions and number of classes
-
-epochs = 20
-batch_size = 100  # Assuming batch processing
-
-for epoch in range(epochs):
-    loss = 0
-    e_loss = 0
-    # Iterate over batches
-    for i in range(0, 900, batch_size):
-        batch_X = X_train[i:i+batch_size]
-        batch_y = y_train[i:i+batch_size]
-        loss += net.train(batch_X, batch_y)
-
-    # Evaluation (simple example, without proper data separation)
-    pred = net.forward_pass(X_test)
-    e_loss = net.compute_loss(pred, y_test)
-
-    print(f"Epoch {epoch+1}, Training Loss: {loss / (100 / batch_size)}")
-    print(f"Epoch {epoch+1}, Evaluated Loss: {e_loss / 100}")
+# test
+for x, y in zip(x_test, y_test):
+    output = predict(network, x)
+    print(f"pred: {np.argmax(output)}, true: {np.argmax(y)}")
