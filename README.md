@@ -26,9 +26,10 @@ I am going to read  Fluent Python SECOND EDITION Clear, Concise, and Effective P
 |Chapter 21| Chapter 21. Asynchronous Programming | Done! | The related codes are being added.|
 |Chapter 22| CHAPTER 22. Dynamic Attributes and Properties | Done! | The related codes are being added.|
 |Chapter 23| CHAPTER 23. Attribute Descriptors | Done! | The related codes are being added.|
-|Chapter 24| CHAPTER 24. Class Metaprogramming | In progress... | The related codes are being added.|
+|Chapter 23| CHAPTER 24. Class Metaprogramming | Done! | The related codes are being added.|
 
-# My interested short project has also been added to this repository.
+
+# My interested short project has also been added to this repository. Check 'my_intereseted_short_codes' and 'Interview QA' folders
 
 1- Find nan values in a DataFrame
 
@@ -37,4 +38,6 @@ I am going to read  Fluent Python SECOND EDITION Clear, Concise, and Effective P
 3- Remove all characters except numbers
 
 4- Turkish(Iran-Azerbaijan)-keyboard
+
+5- Interview question and answers
 
