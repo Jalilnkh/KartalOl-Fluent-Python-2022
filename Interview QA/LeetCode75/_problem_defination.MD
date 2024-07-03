@@ -16,8 +16,8 @@ substring without repeating characters.| Input: s = "abcabcbb", Output: 3, Expla
 |11. |Reverse Words in a String |Given an input string s, reverse the order of the words. A word is defined as a sequence of non-space characters. The words in s will be separated by at least one space. Return a string of the words in reverse order concatenated by a single space. Note that s may contain leading or trailing spaces or multiple spaces between two words. The returned string should only have a single space separating the words. Do not include any extra spaces. | Input: s = "  hello world  " Output: "world hello"|
 |12. |Product of Array Except Self |Given an integer array nums, return an array answer such that answer[i] is equal to the product of all the elements of nums except nums[i]. The product of any prefix or suffix of nums is guaranteed to fit in a 32-bit integer. You must write an algorithm that runs in O(n) time and without using the division operation.| |
 |13. |Increasing Triplet Subsequence |Given an integer array nums, return true if there exists a triple of indices (i, j, k) such that i < j < k and nums[i] < nums[j] < nums[k]. If no such indices exists, return false.| Input: nums = [1,2,3,4,5] Output: true, Input: nums = [5,4,3,2,1] Output: false|
-|14. | || |
-|15. | || |
+|14. | Move Zeroes |Given an integer array nums, move all 0's to the end of it while maintaining the relative order of the non-zero elements. Note that you must do this in-place without making a copy of the array.|Input: nums = [0,1,0,3,12] Output: [1,3,12,0,0] |
+|15. | Is Subsequence|Given two strings s and t, return true if s is a subsequence of t, or false otherwise. A subsequence of a string is a new string that is formed from the original string by deleting some (can be none) of the characters without disturbing the relative positions of the remaining characters. (i.e., "ace" is a subsequence of "abcde" while "aec" is not).|Input: s = "abc", t = "ahbgdc" Output: true |
 |16. | || |
 |17. | || |
 |18. | || |
