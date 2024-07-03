@@ -18,9 +18,9 @@ substring without repeating characters.| Input: s = "abcabcbb", Output: 3, Expla
 |13. |Increasing Triplet Subsequence |Given an integer array nums, return true if there exists a triple of indices (i, j, k) such that i < j < k and nums[i] < nums[j] < nums[k]. If no such indices exists, return false.| Input: nums = [1,2,3,4,5] Output: true, Input: nums = [5,4,3,2,1] Output: false|
 |14. | Move Zeroes |Given an integer array nums, move all 0's to the end of it while maintaining the relative order of the non-zero elements. Note that you must do this in-place without making a copy of the array.|Input: nums = [0,1,0,3,12] Output: [1,3,12,0,0] |
 |15. | Is Subsequence|Given two strings s and t, return true if s is a subsequence of t, or false otherwise. A subsequence of a string is a new string that is formed from the original string by deleting some (can be none) of the characters without disturbing the relative positions of the remaining characters. (i.e., "ace" is a subsequence of "abcde" while "aec" is not).|Input: s = "abc", t = "ahbgdc" Output: true |
-|16. | || |
-|17. | || |
-|18. | || |
+|16. | Max Number of K-Sum Pairs |You are given an integer array nums and an integer k. In one operation, you can pick two numbers from the array whose sum equals k and remove them from the array. Return the maximum number of operations you can perform on the array. |Input: nums = [1,2,3,4], k = 5 Output: 2 |
+|17. |Maximum Average Subarray I |You are given an integer array nums consisting of n elements, and an integer k. Find a contiguous subarray whose length is equal to k that has the maximum average value and return this value. Any answer with a calculation error less than 10-5 will be accepted.| Input: nums = [1,12,-5,-6,50,3], k = 4 Output: 12.75000|
+|18. |Maximum Number of Vowels in a Substring of Given Length | Given a string s and an integer k, return the maximum number of vowel letters in any substring of s with length k. Vowel letters in English are 'a', 'e', 'i', 'o', and 'u'.| Input: s = "abciiidef", k = 3 Output: 3|
 |19. | || |
 |20. | || |
 |21. | || |
