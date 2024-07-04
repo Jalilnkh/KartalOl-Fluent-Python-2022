@@ -27,8 +27,8 @@ substring without repeating characters.| Input: s = "abcabcbb", Output: 3, Expla
 |22. | Subsets |Given an integer array nums of unique elements, return all possible subsets (the power set). The solution set must not contain duplicate subsets. Return the solution in any order.|Input: nums = [1,2,3] Output: [[],[1],[2],[1,2],[3],[1,3],[2,3],[1,2,3]] |
 |23. |Rotate Image|You are given an n x n 2D matrix representing an image, rotate the image by 90 degrees (clockwise). You have to rotate the image in-place, which means you have to modify the input 2D matrix directly. DO NOT allocate another 2D matrix and do the rotation.|Input: matrix = [[1,2,3],[4,5,6],[7,8,9]] Output: [[7,4,1],[8,5,2],[9,6,3]] |
 |24. |Maximum Binary Tree |You are given an integer array nums with no duplicates. A maximum binary tree can be built recursively from nums using the following algorithm: Create a root node whose value is the maximum value in nums. Recursively build the left subtree on the subarray prefix to the left of the maximum value. Recursively build the right subtree on the subarray suffix to the right of the maximum value. Return the maximum binary tree built from nums.| |
-|25. | || |
-|26. | || |
+|25. |Max Consecutive Ones III|Given a binary array nums and an integer k, return the maximum number of consecutive 1's in the array if you can flip at most k 0's.|Input: nums = [1,1,1,0,0,0,1,1,1,1,0], k = 2 Output: 6 Explanation: [1,1,1,0,0,1,1,1,1,1,1] Bolded numbers were flipped from 0 to 1. The longest subarray is underlined. |
+|26. |Longest Subarray of 1's After Deleting One Element |Given a binary array nums, you should delete one element from it.Return the size of the longest non-empty subarray containing only 1's in the resulting array. Return 0 if there is no such subarray. | Input: nums = [1,1,0,1] Output: 3 Explanation: After deleting the number in position 2, [1,1,1] contains 3 numbers with value of 1's. |
 |27. | || |
 |28. | || |
 |29. | || |
