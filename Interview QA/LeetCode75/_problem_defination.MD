@@ -49,35 +49,11 @@ substring without repeating characters.| Input: s = "abcabcbb", Output: 3, Expla
 |44. | Unique Paths | There is a robot on an m x n grid. The robot is initially located at the top-left corner (i.e., grid[0][0]). The robot tries to move to the bottom-right corner (i.e., grid[m - 1][n - 1]). The robot can only move either down or right at any point in time. Given the two integers m and n, return the number of possible unique paths that the robot can take to reach the bottom-right corner. The test cases are generated so that the answer will be less than or equal to 2 * 109.| Input: m = 3, n = 7 Output: 28 |
 |45. | Edit Distance | Given two strings word1 and word2, return the minimum number of operations required to convert word1 to word2. You have the following three operations permitted on a word: Insert a character Delete a character Replace a character| Input: word1 = "horse", word2 = "ros" Output: 3 Explanation:  horse -> rorse (replace 'h' with 'r') rorse -> rose (remove 'r') rose -> ros (remove 'e') |
 |46. | Counting Bits | Given an integer n, return an array ans of length n + 1 such that for each i (0 <= i <= n), ans[i] is the number of 1's in the binary representation of i.| Input: n = 2 Output: [0,1,1] Explanation: 0 --> 0 1 --> 1 2 --> 10|
-|47. | || |
-|48. | || |
-|49. | || |
-|50. | || |
-|51. | || |
-|52. | || |
-|53. | || |
-|54. | || |
-|55. | || |
-|56. | || |
-|57. | || |
-|58. | || |
-|59. | || |
-|60. | || |
-|61. | || |
-|62. | || |
-|63. | || |
-|64. | || |
-|65. | || |
-|66. | || |
-|67. | || |
-|68. | || |
-|69. | || |
-|70. | || |
-|71. | || |
-|72. | || |
-|73. | || |
-|74. | || |
-|75. | || |
-
-
-
+|47. | Maximum Subarray || |
+|48. | Merge Intervals || |
+|49. | Longest Increasing Subsequence || |
+|50. | Container With Most Water || |
+|51. | Valid Parentheses || |
+|52. | Find Minimum in Rotated Sorted Array || |
+|53. | Top K Frequent Elements || |
+|54. | Search in Rotated Sorted Array || |
