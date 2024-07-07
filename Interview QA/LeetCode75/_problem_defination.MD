@@ -49,11 +49,11 @@ substring without repeating characters.| Input: s = "abcabcbb", Output: 3, Expla
 |44. | Unique Paths | There is a robot on an m x n grid. The robot is initially located at the top-left corner (i.e., grid[0][0]). The robot tries to move to the bottom-right corner (i.e., grid[m - 1][n - 1]). The robot can only move either down or right at any point in time. Given the two integers m and n, return the number of possible unique paths that the robot can take to reach the bottom-right corner. The test cases are generated so that the answer will be less than or equal to 2 * 109.| Input: m = 3, n = 7 Output: 28 |
 |45. | Edit Distance | Given two strings word1 and word2, return the minimum number of operations required to convert word1 to word2. You have the following three operations permitted on a word: Insert a character Delete a character Replace a character| Input: word1 = "horse", word2 = "ros" Output: 3 Explanation:  horse -> rorse (replace 'h' with 'r') rorse -> rose (remove 'r') rose -> ros (remove 'e') |
 |46. | Counting Bits | Given an integer n, return an array ans of length n + 1 such that for each i (0 <= i <= n), ans[i] is the number of 1's in the binary representation of i.| Input: n = 2 Output: [0,1,1] Explanation: 0 --> 0 1 --> 1 2 --> 10|
-|47. | Maximum Subarray || |
-|48. | Merge Intervals || |
-|49. | Longest Increasing Subsequence || |
-|50. | Container With Most Water || |
-|51. | Valid Parentheses || |
+|47. | Maximum Subarray | Given an integer array nums, find the subarray with the largest sum, and return its sum.| Input: nums = [-2,1,-3,4,-1,2,1,-5,4] Output: 6 Explanation: The subarray [4,-1,2,1] has the largest sum 6.|
+|48. | Merge Intervals | Given an array of intervals where intervals[i] = [starti, endi], merge all overlapping intervals, and return an array of the non-overlapping intervals that cover all the intervals in the input. | Input: intervals = [[1,3],[2,6],[8,10],[15,18]] Output: [[1,6],[8,10],[15,18]] Explanation: Since intervals [1,3] and [2,6] overlap, merge them into [1,6].|
+|49. | Longest Increasing Subsequence | Given an integer array nums, return the length of the longest strictly increasing  subsequence.| Input: nums = [10,9,2,5,3,7,101,18] Output: 4 Explanation: The longest increasing subsequence is [2,3,7,101], therefore the length is 4.|
+|50. | Container With Most Water | You are given an integer array height of length n. There are n vertical lines drawn such that the two endpoints of the ith line are (i, 0) and (i, height[i]). Find two lines that together with the x-axis form a container, such that the container contains the most water. Return the maximum amount of water a container can store. Notice that you may not slant the container.| Input: height = [1,8,6,2,5,4,8,3,7] Output: 49|
+|51. | Valid Parentheses | Given a string s containing just the characters '(', ')', '{', '}', '[' and ']', determine if the input string is valid. An input string is valid if: Open brackets must be closed by the same type of brackets. Open brackets must be closed in the correct order. Every close bracket has a corresponding open bracket of the same type.| Input: s = "()[]{}" Output: true |
 |52. | Find Minimum in Rotated Sorted Array || |
 |53. | Top K Frequent Elements || |
 |54. | Search in Rotated Sorted Array || |
