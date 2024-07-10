@@ -4,11 +4,9 @@ class Solution:
     def max_score(self, nums1: List[int], nums2: List[int], k: int) -> int:
         # Pair the elements from nums1 and nums2 and sort by the elements in nums2 in descending order
         paired = sorted(zip(nums1, nums2), key=lambda x: -x[1])
-        
         min_heap = []
         sum_nums1 = 0
         max_score = 0
-        
         # Function to push an element into the heap
         def heap_push(heap, value):
             heap.append(value)
