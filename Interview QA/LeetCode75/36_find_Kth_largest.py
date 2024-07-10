@@ -15,7 +15,6 @@ class Solution:
         def quickselect(left, right, k):
             if left == right:
                 return nums[left]
-
             pivot_index = partition(left, right)
 
             if k == pivot_index:
@@ -24,7 +23,6 @@ class Solution:
                 return quickselect(left, pivot_index - 1, k)
             else:
                 return quickselect(pivot_index + 1, right, k)
-
         # Start the quickselect process to find the k-1 largest element
         return quickselect(0, len(nums) - 1, k - 1)
 
