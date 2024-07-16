@@ -21,4 +21,4 @@ class Solution:
 
 if __name__ == "__main__":
     sol = Solution()
-    print(sol.min_cost_climbing_stairs([10,15,20]))
+    print(sol.min_cost_climbing_stairs([1,100,1,1,1,100,1,1,100,1]))
